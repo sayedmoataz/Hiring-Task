@@ -2,6 +2,7 @@ class AppAssets {
   static const String pngPath = 'assets/png';
   static const String nextIcon = '$pngPath/next-icon.png';
   static const String opsMan = '$pngPath/ops-man.png';
+  static const String man = '$pngPath/man.png';
   static const String userIcon = '$pngPath/user.png';
   static const String phoneIcon = '$pngPath/phone-icon.png';
   static const String emailIcon = '$pngPath/email-icon.png';

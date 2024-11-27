@@ -7,6 +7,7 @@ class AppStrings {
   static const String newVisitor = 'New Visitor Pre-Access';
   static const String address = 'Villa 45, Palm Crescent Compound, Al Sufouh 2';
   static const String nextStep = 'Next Step';
+  static const String shareButton = 'Share This QR Code';
   static const String Name = 'Name';
   static const String NameHint = 'John Doe';
   static const String Phone = 'Phone';
@@ -21,4 +22,8 @@ class AppStrings {
   static const String idNumberHint = 'E.g.xxxxxxxxxxxxxx';
   static const String visitReason = 'Visit Reason';
   static const String required = 'This Field Is Required';
+  static const String yourCode = 'Your Visitor QR Code';
+  static const String successQuote = 'was generated successfully!';
+  static const String backHome = 'Back To Home';
+  static const String shareCodeString = 'Share this screen with your visitor so they can access it';
 }

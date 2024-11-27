@@ -10,4 +10,5 @@ class AppColors {
   static Color whiteColor = Colors.white;
   static Color blackColor = Colors.black;
   static Color redColor = Colors.red;
+  static Color transparentColor = Colors.transparent;
 }

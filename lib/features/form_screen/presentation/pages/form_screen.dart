@@ -5,6 +5,7 @@ import '../../../../utils/app_assets.dart';
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/app_routes.dart';
 import '../../../../utils/app_strings.dart';
+import '../widgets/custom_button.dart';
 import '../widgets/date_time_picker.dart';
 import '../widgets/required_widget.dart';
 import '../widgets/text_field.dart';
@@ -42,7 +43,6 @@ class _FormScreenState extends State<FormScreen> {
     return true;
   }
 
-  // Validate all fields
   bool _validateAllFields() {
     bool isValid = true;
 
@@ -50,7 +50,6 @@ class _FormScreenState extends State<FormScreen> {
     isValid &= _validateField('phone', phoneController);
     isValid &= _validateField('visitReason', visitReasonController);
 
-    // Validate date picker
     if (visitDateController.text.isEmpty) {
       _errorStates['visitDate'] = true;
       isValid = false;
@@ -63,8 +62,7 @@ class _FormScreenState extends State<FormScreen> {
     } else {
       _errorStates['visitTime'] = false;
     }
-
-    setState(() {}); // Update UI to reflect error states
+    setState(() {});
     return isValid;
   }
 
@@ -74,7 +72,6 @@ class _FormScreenState extends State<FormScreen> {
       backgroundColor: AppColors.primaryColor,
       body: Column(
         children: [
-          // Non-scrollable Stack (Header)
           SizedBox(
             height: 200.h,
             child: Stack(
@@ -85,7 +82,6 @@ class _FormScreenState extends State<FormScreen> {
                   right: 0,
                   left: 0,
                   child: Container(
-                    height: 287.h,
                     width: double.infinity,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
@@ -127,7 +123,6 @@ class _FormScreenState extends State<FormScreen> {
               ],
             ),
           ),
-          // Form Container (Scrollable)
           Expanded(
             child: SingleChildScrollView(
               child: Container(
@@ -276,52 +271,21 @@ class _FormScreenState extends State<FormScreen> {
                         if (_errorStates['visitReason'] ?? false)
                           const RequiredWidget(),
                         SizedBox(height: 24.h),
-                        SizedBox(
-                          width: double.infinity,
-                          child: InkWell(
-                            onTap: () {
-                              // if (_validateAllFields()) {
-                              Navigator.of(context).pushNamed(
-                                Routes.qrCodeScreen,
-                              );
-                              // }
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    AppColors.secondaryColor,
-                                    AppColors.lightBlueColor,
-                                  ],
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerLeft,
-                                ),
-                                borderRadius: BorderRadius.circular(500.r),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(12.sp),
-                                child: Row(
-                                  children: [
-                                    SizedBox(width: 16.w),
-                                    Text(
-                                      AppStrings.nextStep,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    ),
-                                    const Spacer(),
-                                    Image.asset(
-                                      AppAssets.nextIcon,
-                                      width: 36.w,
-                                      height: 36.h,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                        CustomButton(
+                          onTap: () {
+                            if (_validateAllFields()) {
+                              Navigator.of(context)
+                                  .pushNamed(Routes.qrCodeScreen, arguments: {
+                                'name': nameController.text,
+                                'visitDate': visitDateController.text,
+                                'visitTime': visitTimeController.text,
+                              });
+                            }
+                          },
+                          buttonString: AppStrings.nextStep,
+                          hasImage: true,
                         ),
-                        SizedBox(height: 24.h),
+                        SizedBox(height: 35.h),
                       ],
                     ),
                   ),

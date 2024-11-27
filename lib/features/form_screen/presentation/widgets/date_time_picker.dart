@@ -119,7 +119,7 @@ class _CustomDateTimePickerState extends State<CustomDateTimePicker> {
           boxShadow: [
             BoxShadow(
               color: widget.isError
-                  ? AppColors.redColor.withOpacity(0.5) // Highlight error
+                  ? AppColors.redColor.withOpacity(0.5)
                   : AppColors.lightBlueColor.withOpacity(0.5),
               spreadRadius: 2,
               blurRadius: 8,
@@ -139,7 +139,9 @@ class _CustomDateTimePickerState extends State<CustomDateTimePicker> {
                     widget.imageName,
                     width: 24.w,
                     height: 24.h,
-                    color: AppColors.lightBlueColor,
+                    color: widget.isError
+                        ? AppColors.redColor
+                        : AppColors.lightBlueColor.withOpacity(0.5),
                   ),
                 ),
                 SizedBox(width: 8.h),
@@ -203,4 +205,3 @@ class _CustomDateTimePickerState extends State<CustomDateTimePicker> {
     );
   }
 }
-

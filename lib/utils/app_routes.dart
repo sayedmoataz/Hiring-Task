@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 
 import '../features/form_screen/presentation/pages/form_screen.dart';
-import '../features/qr_code_screen/presentation/pages/qr_code_screen.dart';
+import '../features/form_screen/presentation/pages/qr_code_screen.dart';
 import 'app_strings.dart';
 
 class Routes {
@@ -17,7 +17,11 @@ class AppRoutes {
       case Routes.initialRoute:
         return MaterialPageRoute(builder: ((context) => const FormScreen()));
       case Routes.qrCodeScreen:
-        return MaterialPageRoute(builder: ((context) => const VisitorQRCodeScreen()));
+        return MaterialPageRoute(
+          builder: (context) => VisitorQRCodeScreen(
+            arguments: routeSettings.arguments as Map<String, dynamic>?,
+          ),
+        );
       default:
         return undefinedRoute();
     }
