@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../utils/app_colors.dart';
+import '../../../../utils/app_strings.dart';
 
 class CustomTextField extends StatelessWidget {
   final String imageName;
@@ -10,8 +11,8 @@ class CustomTextField extends StatelessWidget {
   final bool isRequired;
   final String labelText;
   final String hintText;
-
-  final FormFieldValidator<String>? validator;
+  final double? maxLength;
+  final bool isError;
 
   const CustomTextField({
     Key? key,
@@ -19,59 +20,99 @@ class CustomTextField extends StatelessWidget {
     required this.controller,
     this.keyboardType = TextInputType.text,
     this.isRequired = false,
+    this.maxLength,
     required this.labelText,
     required this.hintText,
-    this.validator,
+    this.isError = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: AppColors.whiteColor,
-            borderRadius: BorderRadius.circular(10.r),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.lightBlueColor.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 8,
-                offset: const Offset(0, 0),
-              ),
-            ],
+    return Container(
+      height: maxLength ?? 62.h,
+      decoration: BoxDecoration(
+        color: AppColors.whiteColor,
+        borderRadius: BorderRadius.circular(10.r),
+        boxShadow: [
+          BoxShadow(
+            color: isError
+                ? AppColors.redColor.withOpacity(0.5)
+                : AppColors.lightBlueColor.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 8,
+            offset: const Offset(0, 0),
           ),
-          child: Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.w),
-                child: Image.asset(
-                  'assets/png/$imageName.png',
-                  width: 24.w,
-                  height: 24.h,
-                ),
-              ),
-              Expanded(
-                child: TextFormField(
-                  onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                  onTapOutside: (event) =>FocusManager.instance.primaryFocus!.unfocus(),
-                  controller: controller,
-                  keyboardType: keyboardType,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.primaryColor),
-                  decoration: InputDecoration(
-                    labelText: isRequired ? '$labelText*' : labelText,
-                    labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.primaryColor),
-                    hintText: hintText,
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(vertical: 12.h),
+        ],
+      ),
+      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 12.w),
+      child: Row(
+        crossAxisAlignment: maxLength != null
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(right: 8.w),
+            child: Image.asset(
+              imageName,
+              width: 24.w,
+              height: 24.h,
+              color: isError ? AppColors.redColor : AppColors.lightBlueColor,
+            ),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: labelText,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14.sp,
+                              color: isError
+                                  ? AppColors.redColor
+                                  : AppColors.primaryColor,
+                            ),
+                      ),
+                      if (isRequired) ...{
+                        TextSpan(
+                          text: AppStrings.asterisk,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(color: AppColors.lightBlueColor),
+                        ),
+                      }
+                    ],
                   ),
                 ),
-              ),
-            ],
+                TextFormField(
+                  onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                  onTapOutside: (event) =>
+                      FocusManager.instance.primaryFocus?.unfocus(),
+                  controller: controller,
+                  keyboardType: keyboardType,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppColors.primaryColor,
+                      fontWeight: FontWeight.w500),
+                  decoration: InputDecoration(
+                    hintText: hintText,
+                    hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppColors.primaryColor,
+                          fontWeight: FontWeight.w400,
+                        ),
+                    border: InputBorder.none,
+                    isDense: true,
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
